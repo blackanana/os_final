@@ -21,18 +21,23 @@
 
 # Install NachOS and dependency 
 I. Open a terminal (ctrl + alt + t), it should be at home directory (cd ~).<br>
+
 II. Install C-Shell and g++ <br>
 • sudo apt-get install csh <br>
 • sudo apt-get install g++ <br>
+
 III. Download nachos and cross compiler on github <br>
 • cd ~/Desktop <br>
 • git clone https://github.com/joshhsieh1999/2024_OS_Final.git <br>
+
 IV. Unzip nachos and cross compiler <br>
 • cd ~/Desktop/2024_OS_Final<br>
 • sudo tar -zxf nachos-4.0-final.tar.gz <br>
 • sudo tar -zxf mips-decstation.linux-xgcc.tar.gz <br>
+
 V. Move cross compiler to /usr/local <br>
 • mv ~/Desktop/2024_OS_Final/usr/local/nachos /usr/local <br>
+
 VI. Test cross compiler by compiling “test” directory <br>
 • cd ~/Desktop/2024_OS_Final/nachos-4.0-final/code/test <br>
 • make clean (You have to add “clean” command into Makefile) <br>
