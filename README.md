@@ -37,11 +37,13 @@ VI. Test cross compiler by compiling “test” directory <br>
 • make clean (You have to add “clean” command into Makefile) <br>
 • make <br>
 
-# Compile (nachos won’t be able to correctly compile until you finish some functions within. Refer to the error messages during compiling)
+# Compile 
+(nachos won’t be able to correctly compile until you finish some functions within. Refer to the error messages during compiling)<br>
 • cd ~/nachos-master-nachos-4.0-final/nachos-4.0-final/code<br>
 • make clean<br>
 • make<br>
 
-# Test (This is the example for official version of nachos. Our project won’t be able to successfully build before implementing some functions!)
+# Test 
+(This is the example for official version of nachos. Our project won’t be able to successfully build before implementing some functions!)<br>
 • cd userprog<br>
 • ./nachos -e ../test/test1<br>
