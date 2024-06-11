@@ -1,7 +1,7 @@
 # os_final
 
 # Instruction
-1. Clone the NachOS source code and cross compiler on github (Refer to Environment & NachOS Installation file)
+1. Clone the NachOS source code and cross compiler on github (Refer to Environment & NachOS Installation file)<br>
     git clone https://github.com/joshhsieh1999/2024_OS_Final.git
 2. Decompress file
     tar -zxf <Compressed-File>
