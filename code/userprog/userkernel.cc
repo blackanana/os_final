@@ -5,13 +5,15 @@
 // Copyright (c) 1992-1996 The Regents of the University of California.
 // All rights reserved.  See copyright.h for copyright notice and limitation 
 // of liability and disclaimer of warranty provisions.
-
+#include <cstdlib>
+#include <iostream>
 #include "copyright.h"
 #include "synchconsole.h"
 #include "userkernel.h"
 #include "synchdisk.h"
 #include "synchconsole.h"
 
+#include "thread.h"
 //----------------------------------------------------------------------
 // UserProgKernel::UserProgKernel
 // 	Interpret command line arguments in order to determine flags 
@@ -37,7 +39,9 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 		//<TODO>
         // Get execfile & its priority & burst time from argv, then save them.
 		else if (strcmp(argv[i], "-epb") == 0) {
-
+			execfile[++execfileNum] = argv[++i];
+			threadPriority[execfileNum] = std::atoi(argv[++i]);
+			threadRemainingBurstTime[execfileNum] = std::atoi(argv[++i]);
 	    }
 	    //<TODO>
 	    else if (strcmp(argv[i], "-u") == 0) {
@@ -185,9 +189,25 @@ UserProgKernel::InitializeOneThread(char* name, int priority, int burst_time)
     //<TODO>
     // When each execfile comes to Exec function, Kernel helps to create a thread for it.
     // While creating a new thread, thread should be initialized, and then forked.
+	t[threadNum] = new Thread(name, threadNum);
+	t[threadNum]->setPriority(priority);
+	t[threadNum]->setRemainingBurstTime(burst_time);
+	t[threadNum]->setWaitTime(0);
+	t[threadNum]->setRunTime(0);
+	t[threadNum]->setRRTime(0);
     t[threadNum]->space = new AddrSpace();
     t[threadNum]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[threadNum]);
-    //<TODO>
+	
+	std::cout << "ID:" << t[threadNum]->getID() << "\n";
+	std::cout << "Priority" << t[threadNum]->getPriority() << "\n";
+	std::cout << "RemainingBurstTime" << t[threadNum]->getRemainingBurstTime() << "\n";
+    std::cout << "RRTime" << t[threadNum]->getRRTime() << "\n";
+	std::cout << "RunTime" << t[threadNum]->getRunTime() << "\n";
+	std::cout << "WaitTime" << t[threadNum]->getWaitTime() << "\n";
+	
+	
+	
+	//<TODO>
 
     threadNum++;
     return threadNum - 1;

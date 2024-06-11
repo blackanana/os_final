@@ -83,7 +83,7 @@ Scheduler::~Scheduler()
 void Scheduler::ReadyToRun(Thread *thread)
 {
     ASSERT(kernel->interrupt->getLevel() == IntOff);
-    DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
+    //DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
 
     Statistics *stats = kernel->stats;
     //<TODO>
@@ -94,18 +94,23 @@ void Scheduler::ReadyToRun(Thread *thread)
     if (thread->getPriority() >= 100)
     {
         L1ReadyQueue->Insert(thread);
+		DEBUG('z', "[InsertToQueue] Tick [" << stats -> totalTicks << "] Thread [" << thread->getID() << "] is inserted into queue L1\n");
         if (kernel->currentThread->getRemainingBurstTime() > thread->getRemainingBurstTime())
         {
+			
+			DEBUG('z', "[RemoveFromQueue] Tick [" << stats -> totalTicks << "] Thread [" << kernel->currentThread->getID() << "] is removed from queue L1\n");	
             kernel->interrupt->YieldOnReturn();
         }
     }
     else if (thread->getPriority() >= 50)
     {
         L2ReadyQueue->Insert(thread);
+		DEBUG('z', "[InsertToQueue] Tick [" << stats -> totalTicks << "] Thread [" << thread->getID() << "] is inserted into queue L2\n");
     }
     else
     {
         L3ReadyQueue->Append(thread);
+		DEBUG('z', "[InsertToQueue] Tick [" << stats -> totalTicks << "] Thread [" << thread->getID() << "] is inserted into queue L3\n");
     }
     //<TODO>
     // readyList->Append(thread);
