@@ -29,7 +29,8 @@ III. Download nachos and cross compiler on github <br>
 • git clone https://github.com/joshhsieh1999/2024_OS_Final.git <br>
 IV. Unzip nachos and cross compiler <br>
 • cd ~/Desktop/2024_OS_Final<br>
-• sudo tar -zxf nachos-4.0-final.tar.gz • sudo tar -zxf mips-decstation.linux-xgcc.tar.gz <br>
+• sudo tar -zxf nachos-4.0-final.tar.gz <br>
+• sudo tar -zxf mips-decstation.linux-xgcc.tar.gz <br>
 V. Move cross compiler to /usr/local <br>
 • mv ~/Desktop/2024_OS_Final/usr/local/nachos /usr/local <br>
 VI. Test cross compiler by compiling “test” directory <br>
