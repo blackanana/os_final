@@ -3,14 +3,14 @@
 # Instruction
 1. Clone the NachOS source code and cross compiler on github (Refer to Environment & NachOS Installation file)<br>
     git clone https://github.com/joshhsieh1999/2024_OS_Final.git
-2. Decompress file
+2. Decompress file<br>
     tar -zxf <Compressed-File>
-3. Switch to the code folder
+3. Switch to the code folder<br>
     cd nachos-4.0-final
-4. Compile
+4. Compile<br>
     make clean
     make
-5. Test your implementation with different p1, bt1, p2, bt2
+5. Test your implementation with different p1, bt1, p2, bt2<br>
     userprog/nachos -epb <execute file> <p1> <bt1> -epb <execute file> <p2> <bt2> -d z
     ex:
     userprog/nachos -epb test/hw2_test1 40 5000 -epb test/hw2_test2 80 4000 -d z
@@ -20,19 +20,19 @@
     userprog/nachos -epb test/hw2_test1 90 5000 -epb test/hw2_test2 100 4000 -d z
 
 # Install NachOS and dependency 
-I. Open a terminal (ctrl + alt + t), it should be at home directory (cd ~).
-II. Install C-Shell and g++ 
+I. Open a terminal (ctrl + alt + t), it should be at home directory (cd ~).<br>
+II. Install C-Shell and g++ <br>
 • sudo apt-get install csh 
 • sudo apt-get install g++ 
-III. Download nachos and cross compiler on github 
+III. Download nachos and cross compiler on github <br>
 • cd ~/Desktop 
 • git clone https://github.com/joshhsieh1999/2024_OS_Final.git 
-IV. Unzip nachos and cross compiler 
+IV. Unzip nachos and cross compiler <br>
 • cd ~/Desktop/2024_OS_Final
 • sudo tar -zxf nachos-4.0-final.tar.gz • sudo tar -zxf mips-decstation.linux-xgcc.tar.gz 
-V. Move cross compiler to /usr/local 
+V. Move cross compiler to /usr/local <br>
 • mv ~/Desktop/2024_OS_Final/usr/local/nachos /usr/local 
-VI. Test cross compiler by compiling “test” directory 
+VI. Test cross compiler by compiling “test” directory <br>
 • cd ~/Desktop/2024_OS_Final/nachos-4.0-final/code/test 
 • make clean (You have to add “clean” command into Makefile) 
 • make 
