@@ -112,6 +112,8 @@ void Scheduler::ReadyToRun(Thread *thread)
         L3ReadyQueue->Append(thread);
 		DEBUG('z', "[InsertToQueue] Tick [" << stats -> totalTicks << "] Thread [" << thread->getID() << "] is inserted into queue L3\n");
     }
+    thread->setWaitTime(0);
+    thread->setRRTime(200);
     //<TODO>
     // readyList->Append(thread);
 }
@@ -208,13 +210,13 @@ void Scheduler::Run(Thread *nextThread, bool finishing)
     kernel->currentThread = nextThread; // switch to the next thread
     nextThread->setStatus(RUNNING);     // nextThread is now running
 
-    int executedTicks = kernel->stats->totalTicks - oldThread->getStartTick();
-    int oldBurstTime = oldThread->getRemainingBurstTime();
-    oldThread->setRemainingBurstTime(oldBurstTime - executedTicks);
+    // int executedTicks = kernel->stats->totalTicks - oldThread->getStartTick();
+    // int oldBurstTime = oldThread->getRemainingBurstTime();
+    // oldThread->setRemainingBurstTime(oldBurstTime - executedTicks);
 
-    DEBUG('z', std::cout << "[UpdateRemainingBurstTime] Tick [" << kernel->stats->totalTicks << "]: Thread [" << oldThread->getID() << "] update remaining burst time, from: [" << oldBurstTime << "] - [" << executedTicks << "], to [" << oldThread->getRemainingBurstTime() << "]\n");
+    // DEBUG('z', std::cout << "[UpdateRemainingBurstTime] Tick [" << kernel->stats->totalTicks << "]: Thread [" << oldThread->getID() << "] update remaining burst time, from: [" << oldBurstTime << "] - [" << executedTicks << "], to [" << oldThread->getRemainingBurstTime() << "]\n");
 
-    nextThread->setStartTick(kernel->stats->totalTicks); // Set start tick for the new thread
+    // nextThread->setStartTick(kernel->stats->totalTicks); // Set start tick for the new thread
 
     // DEBUG(dbgThread, "Switching from: " << oldThread->getName() << " to: " << nextThread->getName());
 
@@ -223,8 +225,8 @@ void Scheduler::Run(Thread *nextThread, bool finishing)
     // a bit to figure out what happens after this, both from the point
     // of view of the thread and from the perspective of the "outside world".
 
-    /* cout << "Switching from: " << oldThread->getID() << " to: " << nextThread->getID() << endl;*/
-    DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
+    cout << "Switching from: " << oldThread->getID() << " to: " << nextThread->getID() << endl;
+    // DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
 
     SWITCH(oldThread, nextThread);
 
