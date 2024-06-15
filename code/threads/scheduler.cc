@@ -298,20 +298,60 @@ void Scheduler::Print()
 
 void Scheduler::UpdatePriority()
 {
+	// Update WaitTime
+	ListIterator<Thread *> *iter;
+	iter = new ListIterator<Thread *>(L3ReadyQueue);
+	for (;!iter->IsDone(); iter->Next()) {
+		Thread *thread = iter->Item();
+		thread->setWaitTime(thread->getWaitTime() + 100);
+	}
+		
+	delete iter;
+
+	iter = new ListIterator<Thread *>(L2ReadyQueue);
+	for (;!iter->IsDone(); iter->Next()) {
+		Thread *thread = iter->Item();
+		thread->setWaitTime(thread->getWaitTime() + 100);
+	}
+
+	iter = new ListIterator<Thread *>(L1ReadyQueue);
+	for (;!iter->IsDone(); iter->Next()) {
+		Thread *thread = iter->Item();
+		thread->setWaitTime(thread->getWaitTime() + 100);
+	}
+		
+	// Update RunTime and RemainingBurstTime 
+	Thread* currentThread = kernel->currentThread;
+	currentThread->setRunTime(currentThread->getRunTime() + 100);
+	currentThread->setRemainingBurstTime(currentThread->getRemainingBurstTime() - 100);
+	if (currentThread->getRemainingBurstTime() <= 0) {
+		kernel->interrupt->YieldOnReturn();
+	}
+
+	// Update RRTime
+	if (currentThread->getPriority() < 50) {
+		currentThread->setRRTime(currentThread->getRRTime() + 100);
+		if (currentThread->getRRTime() >= 200) {
+			currentThread->setRRTime(0);
+			kernel->interrupt->YieldOnReturn();
+		}
+	}
+	
     //  Aging : increase 10 after more than 400 ticks
-    ListIterator<Thread *> *iter;
 
     iter = new ListIterator<Thread *>(L3ReadyQueue);
     for (; !iter->IsDone(); iter->Next())
     {
         Thread *thread = iter->Item();
-        if (thread->getWaitTime() > 400)
-        {
-	    int oldPriority = thread->getPriority();
-            L3ReadyQueue->Remove(thread);
-            thread->setPriority(oldPriority + 10);
-	    DEBUG('z', cout << "[UpdatePriority] Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] changes its priority from [" << oldPriority << "] to [" << thread->getPriority() << "]\n");
-            ReadyToRun(thread);
+        if (thread->getWaitTime() > 400) {
+			int oldPriority = thread->getPriority();
+			thread->setPriority(oldPriority+10);
+			thread->setWaitTime(0);
+	   		if (thread->getPriority() >= 50) {
+            	L3ReadyQueue->Remove(thread);
+	    		DEBUG('z', cout << "[UpdatePriority] Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] changes its priority from [" << oldPriority << "] to [" << thread->getPriority() << "]\n");
+            	ReadyToRun(thread);
+			}
         }
     }
     delete iter;
@@ -320,13 +360,15 @@ void Scheduler::UpdatePriority()
     for (; !iter->IsDone(); iter->Next())
     {
         Thread *thread = iter->Item();
-        if (thread->getWaitTime() > 400)
-        {
-	    int oldPriority = thread->getPriority();
-            L2ReadyQueue->Remove(thread);
-            thread->setPriority(oldPriority + 10);
-	    DEBUG('z', cout << "[UpdatePriority] Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] changes its priority from [" << oldPriority << "] to [" << thread->getPriority() << "]\n");
-            ReadyToRun(thread);
+        if (thread->getWaitTime() > 400) {
+			int oldPriority = thread->getPriority();
+			thread->setPriority(oldPriority+10);
+			thread->setWaitTime(0);
+	   		if (thread->getPriority() >= 100) {
+            	L2ReadyQueue->Remove(thread);
+	    		DEBUG('z', cout << "[UpdatePriority] Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] changes its priority from [" << oldPriority << "] to [" << thread->getPriority() << "]\n");
+            	ReadyToRun(thread);
+			}
         }
     }
     delete iter;
@@ -337,12 +379,13 @@ void Scheduler::UpdatePriority()
         Thread *thread = iter->Item();
         if (thread->getWaitTime() > 400)
         {
-	    int oldPriority = thread->getPriority();
-            L1ReadyQueue->Remove(thread);
-            thread->setPriority(oldPriority + 10);
+			int oldPriority = thread->getPriority();
+			thread->setPriority(oldPriority+10);
+			thread->setWaitTime(0);
 	    DEBUG('z', cout << "[UpdatePriority] Tick [" << kernel->stats->totalTicks << "]: Thread [" << thread->getID() << "] changes its priority from [" << oldPriority << "] to [" << thread->getPriority() << "]\n");
-            ReadyToRun(thread);
-        }
+            L1ReadyQueue->Remove(thread);
+			ReadyToRun(thread);
+        } 
     }
     delete iter;
 }
