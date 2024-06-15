@@ -178,6 +178,7 @@ ForkExecute(Thread *t)
 {
     // cout << "Thread: " << (void *) t << endl;
     //<TODO>
+	t->space->Execute(t->getName());
     // When Thread t goes to Running state in the first time, its file should be loaded & executed.
     // Hint: This function would not be called until Thread t is on running state.
     //<TODO>
