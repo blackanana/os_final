@@ -63,6 +63,26 @@ Alarm::CallBack()
     // 2. Update RunTime & RRTime
 
     // 3. Check Round Robin
+	
+	thread t* = UserProgKernel -> t;
+
+	if (totalTicks % 100 == 0) {
+		// Update Priority
+		Scheduler::UpdatePriority();
+		for(int i = 1; i < UserProgKernel->threadNum; ++i) {
+			// if t[i] is the current thread, update run time
+			if (t[i]->getID() == kernel->currentThread->getID()) {
+				t[i]->setRunTime(t[i]->getRunTime()+100);
+				// if current thread is in L3, update RR time
+				if (t[i]->getPriority() >= 100) {
+					t[i]->setRRTime(t[i]->getRRTime() + 100);
+					if (t[i]->getRRTime() >= 200) {
+						interrupt->YieldOnReturn();	
+					}
+				}
+			}
+		}
+	}
 
     //<TODO>
     
