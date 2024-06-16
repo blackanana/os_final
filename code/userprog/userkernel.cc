@@ -205,6 +205,7 @@ UserProgKernel::InitializeOneThread(char* name, int priority, int burst_time)
     std::cout << "RRTime" << t[threadNum]->getRRTime() << "\n";
 	std::cout << "RunTime" << t[threadNum]->getRunTime() << "\n";
 	std::cout << "WaitTime" << t[threadNum]->getWaitTime() << "\n";
+	std::cout << "name" << t[threadNum]->getName() << "\n";
 	
 	
 	

@@ -224,9 +224,10 @@ void Scheduler::Run(Thread *nextThread, bool finishing)
     // in switch.s.  You may have to think
     // a bit to figure out what happens after this, both from the point
     // of view of the thread and from the perspective of the "outside world".
+	//DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
 
     cout << "Switching from: " << oldThread->getID() << " to: " << nextThread->getID() << endl;
-    // DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
+    DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
 
     SWITCH(oldThread, nextThread);
 
@@ -316,11 +317,14 @@ void Scheduler::UpdatePriority()
 		thread->setWaitTime(thread->getWaitTime() + 100);
 	}
 
+	delete iter;
+
 	iter = new ListIterator<Thread *>(L1ReadyQueue);
 	for (;!iter->IsDone(); iter->Next()) {
 		Thread *thread = iter->Item();
 		thread->setWaitTime(thread->getWaitTime() + 100);
 	}
+	delete iter;
 		
 	// Update RunTime and RemainingBurstTime 
 	Thread* currentThread = kernel->currentThread;
@@ -333,7 +337,7 @@ void Scheduler::UpdatePriority()
 	// Update RRTime
 	if (currentThread->getPriority() < 50) {
 		currentThread->setRRTime(currentThread->getRRTime() + 100);
-		if (currentThread->getRRTime() >= 200) {
+		if (currentThread->getRRTime() >= 200 && !L3ReadyQueue->IsEmpty()) {
 			currentThread->setRRTime(0);
 			kernel->interrupt->YieldOnReturn();
 		}
