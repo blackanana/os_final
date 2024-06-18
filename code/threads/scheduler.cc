@@ -227,7 +227,7 @@ void Scheduler::Run(Thread *nextThread, bool finishing)
     // of view of the thread and from the perspective of the "outside world".
 	//DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
 
-    DEBUG('z',"[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << oldThread->getRunTime() << "] ticks");
+    DEBUG('z',"[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks");
     DEBUG('z',  "Switching from: " << oldThread->getID() << " to: " << nextThread->getID());
     SWITCH(oldThread, nextThread);
 
