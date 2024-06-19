@@ -270,14 +270,14 @@ void Thread::Sleep(bool finishing)
     // , and determine finishing on Scheduler::Run(nextThread, finishing), not here.
     // 1. Update RemainingBurstTime
     // 2. Reset some value of current_thread, then context switch
-    // int newRemaingBurstTime = kernel->currentThread->getRemainingBurstTime() - kernel->stats->userTicks;
-    int usedBurstTime = kernel->stats->totalTicks - getStartTick();
-    setRemainingBurstTime(getRemainingBurstTime()-usedBurstTime);
+    // int usedBurstTime = kernel->stats->totalTicks - getStartTick();
+    int usedBurstTime = kernel->stats->userTicks - getRunTime();
+    setRemainingBurstTime(kernel->currentThread->getRemainingBurstTime() - usedBurstTime);
 
     DEBUG(dbgThread, "Thread: " << name << ", ID: " << ID << ", used burst time: " << usedBurstTime << ", reamaining burst time: "<< getRemainingBurstTime());
-
+    setRunTime(0);
     setWaitTime(0);
-    setRRTime(200);
+    // setRRTime(200);
 
     kernel->scheduler->Run(nextThread, finishing);
     //<TODO>

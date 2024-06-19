@@ -54,23 +54,15 @@ Alarm::CallBack()
 
     //<TODO>
 
-
     // In each 100 ticks, 
     
     // 1. Update Priority
 
     // 2. Update RunTime & RRTime
-
+    
     // 3. Check Round Robin
-	
-	// What about waitTime and RemainingBurstTime?
-	
 
-	if (kernel->stats->totalTicks % 100 == 0) {
-		// Call Scheduler to have everything done!
-		kernel->scheduler->UpdatePriority();
-		
-		}
+	// Call Scheduler to have everything done!
 
     //<TODO>
     
@@ -79,6 +71,8 @@ Alarm::CallBack()
            timer->Disable(); // turn off the timer
     }
     } else {         // there's someone to preempt
+        kernel->currentThread->setRunTime(kernel->currentThread->getRunTime() + 100);
+        kernel->scheduler->UpdatePriority();
        interrupt->YieldOnReturn();
     }
 }

@@ -114,7 +114,7 @@ void Scheduler::ReadyToRun(Thread *thread)
 		DEBUG('z', "[InsertToQueue] Tick [" << stats -> totalTicks << "] Thread [" << thread->getID() << "] is inserted into queue L3");
     }
     thread->setWaitTime(0);
-    thread->setRRTime(0);
+    // thread->setRRTime(0);
     //<TODO>
     // readyList->Append(thread);
 }
@@ -217,8 +217,8 @@ void Scheduler::Run(Thread *nextThread, bool finishing)
 
     // DEBUG('z', std::cout << "[UpdateRemainingBurstTime] Tick [" << kernel->stats->totalTicks << "]: Thread [" << oldThread->getID() << "] update remaining burst time, from: [" << oldBurstTime << "] - [" << executedTicks << "], to [" << oldThread->getRemainingBurstTime() << "]\n");
 
-    // nextThread->setStartTick(kernel->stats->totalTicks); // Set start tick for the new thread
-
+    //nextThread->setStartTick(kernel->stats->totalTicks); // Set start tick for the new thread
+    
     // DEBUG(dbgThread, "Switching from: " << oldThread->getName() << " to: " << nextThread->getName());
 
     // This is a machine-dependent assembly language routine defined
@@ -227,8 +227,8 @@ void Scheduler::Run(Thread *nextThread, bool finishing)
     // of view of the thread and from the perspective of the "outside world".
 	//DEBUG('z', cout << "[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << kernel->stats->totalTicks - oldThread->getStartTick() << "] ticks\n");
 
-    DEBUG('z',"[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << oldThread->getID() << "] is replaced, and it has executed [" << oldThread->getRunTime() << "] ticks");
     DEBUG('z',  "Switching from: " << oldThread->getID() << " to: " << nextThread->getID());
+
     SWITCH(oldThread, nextThread);
 
     // we're back, running oldThread

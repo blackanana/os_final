@@ -115,6 +115,7 @@ public:
   char *getName() { return (name); }
   void Print() { cout << name; }
   void SelfTest(); // test whether thread impl is working
+  
   //<TODO>
   // Set & Get the value in Class Thread
   // 1. get ID
@@ -136,8 +137,8 @@ public:
   void setRRTime(int rrTime) { this->RRTime = rrTime; }
   //<TODO>
 
-  int getStartTick() { return startTick; }
-  void setStartTick(int tick) { startTick = tick; }
+  // int getStartTick() { return startTick; }
+  // void setStartTick(int tick) { startTick = tick; }
 
 private:
   // some of the private data for this class is listed above
