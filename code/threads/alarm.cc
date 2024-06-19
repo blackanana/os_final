@@ -66,14 +66,12 @@ Alarm::CallBack()
 	// What about waitTime and RemainingBurstTime?
 	
 
-	if (kernel->stats->totalTicks % 100 == 0) {
 		// Call Scheduler to have everything done!
-		kernel->scheduler->UpdatePriority();
+	kernel->scheduler->UpdatePriority();
 		
-		}
 
     //<TODO>
-    
+    /*
     if (status == IdleMode) {    // is it time to quit?
     if (!interrupt->AnyFutureInterrupts()) {
            timer->Disable(); // turn off the timer
@@ -81,5 +79,6 @@ Alarm::CallBack()
     } else {         // there's someone to preempt
        interrupt->YieldOnReturn();
     }
+	*/
 }
 

@@ -389,12 +389,12 @@ void Scheduler::UpdatePriority()
 	
 	if (currentThread->getPriority() >= 100) {
 		if (L1ReadyQueue->Front()->getRemainingBurstTime() < currentThread->getRemainingBurstTime()){
-			kernel->interrupt->YieldOnReturn();	
+			//kernel->interrupt->YieldOnReturn();	
 		}
 	}
 	else if (currentThread->getPriority() >= 50) {
 		if (!L1ReadyQueue->IsEmpty()) {
-			kernel->interrupt->YieldOnReturn();
+			//kernel->interrupt->YieldOnReturn();
 			//cout << L1ReadyQueue->Front()->getID() << "\n";
 		}
 	}
@@ -402,11 +402,11 @@ void Scheduler::UpdatePriority()
 		// Update RRTime and Check RR
 		currentThread->setRRTime(currentThread->getRRTime() + 100);
 		if (!L1ReadyQueue->IsEmpty() || !L2ReadyQueue->IsEmpty()) {
-			kernel->interrupt->YieldOnReturn();
+			//kernel->interrupt->YieldOnReturn();
 		}
 		else if (currentThread->getRRTime() >= 200 && !L3ReadyQueue->IsEmpty()) {
 			currentThread->setRRTime(0);
-			kernel->interrupt->YieldOnReturn();
+			//kernel->interrupt->YieldOnReturn();
 		}
 	}
 }
