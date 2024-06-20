@@ -178,11 +178,12 @@ ForkExecute(Thread *t)
 {
     // cout << "Thread: " << (void *) t << endl;
     //<TODO>
+	DEBUG('z',"ForkExecute => fork thread id: " << t->getID()<< " currentTick: " << kernel->stats->totalTicks)
 	t->space->Execute(t->getName());
     // When Thread t goes to Running state in the first time, its file should be loaded & executed.
     // Hint: This function would not be called until Thread t is on running state.
     //<TODO>
-	t->setRunTime(kernel->stats->userTicks)
+	//t->setRunTime(kernel->stats->userTicks);
 }
 
 int 
@@ -200,13 +201,13 @@ UserProgKernel::InitializeOneThread(char* name, int priority, int burst_time)
     t[threadNum]->space = new AddrSpace();
     t[threadNum]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[threadNum]);
 	
-	std::cout << "ID:" << t[threadNum]->getID() << "\n";
-	std::cout << "Priority" << t[threadNum]->getPriority() << "\n";
-	std::cout << "RemainingBurstTime" << t[threadNum]->getRemainingBurstTime() << "\n";
-    std::cout << "RRTime" << t[threadNum]->getRRTime() << "\n";
-	std::cout << "RunTime" << t[threadNum]->getRunTime() << "\n";
-	std::cout << "WaitTime" << t[threadNum]->getWaitTime() << "\n";
-	std::cout << "name" << t[threadNum]->getName() << "\n";
+	//std::cout << "ID:" << t[threadNum]->getID() << "\n";
+	//std::cout << "Priority" << t[threadNum]->getPriority() << "\n";
+	//std::cout << "RemainingBurstTime" << t[threadNum]->getRemainingBurstTime() << "\n";
+    //std::cout << "RRTime" << t[threadNum]->getRRTime() << "\n";
+	//std::cout << "RunTime" << t[threadNum]->getRunTime() << "\n";
+	//std::cout << "WaitTime" << t[threadNum]->getWaitTime() << "\n";
+	//std::cout << "name" << t[threadNum]->getName() << "\n";
 	
 	
 	

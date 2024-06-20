@@ -65,14 +65,15 @@ Alarm::CallBack()
 	// Call Scheduler to have everything done!
 
     //<TODO>
+    //cout << "CallBack, " << "totalticks:" << kernel->stats->totalTicks << "\n"; 
     
-    if (status == IdleMode) {    // is it time to quit?
+	if (status == IdleMode) {    // is it time to quit?
     if (!interrupt->AnyFutureInterrupts()) {
            timer->Disable(); // turn off the timer
     }
     } else {         // there's someone to preempt
         kernel->currentThread->setRunTime(kernel->currentThread->getRunTime() + 100);
-        kernel->scheduler->UpdatePriority();
+		kernel->scheduler->UpdatePriority();
        interrupt->YieldOnReturn();
     }
 }

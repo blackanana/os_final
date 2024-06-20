@@ -333,6 +333,7 @@ void Scheduler::UpdatePriority()
     //  Aging : increase 10 after more than 400 ticks
 
     iter = new ListIterator<Thread *>(L3ReadyQueue);
+	
     for (; !iter->IsDone(); iter->Next())
     {
         Thread *thread = iter->Item();
@@ -348,7 +349,7 @@ void Scheduler::UpdatePriority()
         }
     }
     delete iter;
-
+	
     iter = new ListIterator<Thread *>(L2ReadyQueue);
     for (; !iter->IsDone(); iter->Next())
     {
@@ -365,7 +366,7 @@ void Scheduler::UpdatePriority()
 		}
     }
     delete iter;
-
+	
     iter = new ListIterator<Thread *>(L1ReadyQueue);
     for (; !iter->IsDone(); iter->Next())
     {
@@ -386,10 +387,11 @@ void Scheduler::UpdatePriority()
         } 
     }
     delete iter;
-	
 	if (currentThread->getPriority() >= 100) {
-		if (L1ReadyQueue->Front()->getRemainingBurstTime() < currentThread->getRemainingBurstTime()){
-			kernel->interrupt->YieldOnReturn();	
+		if (!L1ReadyQueue->IsEmpty()){
+			if (L1ReadyQueue->Front()->getRemainingBurstTime() < currentThread->getRemainingBurstTime()){
+				kernel->interrupt->YieldOnReturn();	
+			}
 		}
 	}
 	else if (currentThread->getPriority() >= 50) {
