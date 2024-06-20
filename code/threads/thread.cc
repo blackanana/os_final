@@ -284,7 +284,7 @@ setRemainingBurstTime(old-getRunTime());
     
     DEBUG('z',"[ContextSwitch] Tick [" << kernel->stats->totalTicks << "]: Thread [" << nextThread->getID() << "] is now selected for execution, thread [" << getID() << "] is replaced, and it has executed [" << getRunTime() << "] ticks");
 
-    nextThread->setRunTime(kernel->stats->totalTicks);
+    //nextThread->setRunTime(0);
     kernel->scheduler->Run(nextThread, finishing);
     setRunTime(0);
 }else{
