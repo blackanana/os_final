@@ -402,12 +402,12 @@ void Scheduler::UpdatePriority()
 	}
 	else {
 		// Update RRTime and Check RR
-		currentThread->setRRTime(currentThread->getRRTime() + 100);
+		//currentThread->setRRTime(currentThread->getRRTime() + 100);
 		if (!L1ReadyQueue->IsEmpty() || !L2ReadyQueue->IsEmpty()) {
 			kernel->interrupt->YieldOnReturn();
 		}
-		else if (currentThread->getRRTime() >= 200 && !L3ReadyQueue->IsEmpty()) {
-			currentThread->setRRTime(0);
+		else if (currentThread->getRunTime() >= 200 && !L3ReadyQueue->IsEmpty()) {
+			//currentThread->setRRTime(0);
 			kernel->interrupt->YieldOnReturn();
 		}
 	}
