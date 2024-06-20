@@ -301,34 +301,8 @@ void Scheduler::Print()
 
 void Scheduler::UpdatePriority()
 {
-	// Update WaitTime
 	ListIterator<Thread *> *iter;
-	iter = new ListIterator<Thread *>(L3ReadyQueue);
-	for (;!iter->IsDone(); iter->Next()) {
-		Thread *thread = iter->Item();
-		thread->setWaitTime(thread->getWaitTime() + 100);
-	}
-		
-	delete iter;
-
-	iter = new ListIterator<Thread *>(L2ReadyQueue);
-	for (;!iter->IsDone(); iter->Next()) {
-		Thread *thread = iter->Item();
-		thread->setWaitTime(thread->getWaitTime() + 100);
-	}
-
-	delete iter;
-
-	iter = new ListIterator<Thread *>(L1ReadyQueue);
-	for (;!iter->IsDone(); iter->Next()) {
-		Thread *thread = iter->Item();
-		thread->setWaitTime(thread->getWaitTime() + 100);
-	}
-	delete iter;
-		
 	Thread* currentThread = kernel->currentThread;
-
-	
 	
     //  Aging : increase 10 after more than 400 ticks
 

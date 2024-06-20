@@ -49,8 +49,11 @@ void
 Alarm::CallBack() 
 {
     Interrupt *interrupt = kernel->interrupt;
+     if (interrupt == NULL) {
+        DEBUG('z', "Error: Interrupt is NULL in Alarm::CallBack");
+        return;
+    }
     MachineStatus status = interrupt->getStatus();
-    
 
     //<TODO>
 
@@ -67,13 +70,16 @@ Alarm::CallBack()
     //<TODO>
     
     if (status == IdleMode) {    // is it time to quit?
-    if (!interrupt->AnyFutureInterrupts()) {
-           timer->Disable(); // turn off the timer
-    }
+        if (!interrupt->AnyFutureInterrupts()) {
+            timer->Disable(); // turn off the timer
+        }
     } else {         // there's someone to preempt
         kernel->currentThread->setRunTime(kernel->currentThread->getRunTime() + 100);
-        kernel->scheduler->UpdatePriority();
-       interrupt->YieldOnReturn();
+	    kernel->currentThread->setWaitTime(kernel->currentThread->getWaitTime() + 100);
+        if (kernel->currentThread != NULL) {
+            kernel->scheduler->UpdatePriority();
+            interrupt->YieldOnReturn();
+        }
     }
 }
 
